@@ -10,7 +10,6 @@
                     <th>Course</th>
                     <th>Discussion</th>
                     <th>Time</th>
-                    <th>Location</th>
                     <th>Attendance</th>
                 </tr>
             </thead>
@@ -20,7 +19,6 @@
                     <td><a href="/courses/{{ group.course.id }}/">{{ group.course.name }}</a></td>
                     <td><a href="/groups/{{ group.id }}/">{{ group.name }}</a></td>
                     <td>{{ group.time.ctime }}</td>
-                    <td>{{ group.location }}</td>
                     <td>{{ group.attendees.count }}/{{ group.size }}</td>
                 </tr>
             {% endfor %}
