@@ -1,10 +1,10 @@
+from datetime import datetime
+
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login
 
 from models import Group, User, Course
-
-
 
 # Create your views here.
 @login_required
@@ -15,9 +15,12 @@ def groups(request):
     # Todo filter in the query
     groups = list()
     for group in all_groups:
-        for attendee in group.attendees.all():
-            if user.id == attendee.id:
-                groups.append(group)
+        if group.organizer.id == user.id:
+            groups.append(group)
+        else:
+            for attendee in group.attendees.all():
+                if user.id == attendee.id:
+                    groups.append(group)
 
     context = {'groups': groups}
     return render(request, 'class_discuss_site/groups.html', context)
@@ -47,6 +50,30 @@ def courses(request):
     courses = Course.objects.all()
     context = {'courses': courses}
     return render(request, 'class_discuss_site/courses.html', context)
+
+
+@login_required
+def course_create_page(request):
+    return render(request, 'class_discuss_site/course_create.html', {})
+
+
+@login_required
+def course_insert(request):
+    name = request.POST['name']
+    size = request.POST['size']
+    # TODO respect user selected time
+    date = request.POST['date']
+    time = request.POST['time']
+    organizer = request.user
+    event_datetime = datetime.now()
+
+    # skip location, attendees
+    # TODO get course name too!
+    course = Course.objects.get(pk=1)
+    group = Group(name=name, size=size, organizer=organizer, time=event_datetime, course=course)
+    group.save()
+
+    return group_detail(request, group.id)
 
 
 @login_required

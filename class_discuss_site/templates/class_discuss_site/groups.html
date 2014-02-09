@@ -3,15 +3,21 @@
 {% block title %}Groups{% endblock %}
 
 {% block content %}
+
+    <a href="/courses/create">
+        <button type="button" class="btn btn-primary btn-lg btn-block">Create New Discussion
+        </button>
+    </a>
+
     {% if groups %}
         <table class="table">
             <thead>
-                <tr>
-                    <th>Course</th>
-                    <th>Discussion</th>
-                    <th>Time</th>
-                    <th>Attendance</th>
-                </tr>
+            <tr>
+                <th>Course</th>
+                <th>Discussion</th>
+                <th>Time</th>
+                <th>Attendance</th>
+            </tr>
             </thead>
             <tbody>
             {% for group in groups %}
