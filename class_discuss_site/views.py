@@ -41,7 +41,7 @@ def group_post_message(request, group_id):
     group = get_object_or_404(Group, pk=group_id)
     post = ForumMessage(message=message, sender=sender, group=group)  # time inserted automatically
     post.save()
-    return render(request, 'class_discuss_site/group.html', {'group': group})
+    return group_detail(request, group_id)
 
 
 @login_required
