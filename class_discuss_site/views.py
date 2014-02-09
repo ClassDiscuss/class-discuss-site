@@ -102,8 +102,8 @@ def course_detail(request, course_id):
     Show a detailed page for a course.
     """
     course = get_object_or_404(Course, pk=course_id)
-    groups = Discussion.objects.all().filter(course=course_id)
-    context = {'course': course, 'groups': groups}
+    discussions = Discussion.objects.all().filter(course=course_id)
+    context = {'course': course, 'discussions': discussions}
     return render(request, 'class_discuss_site/course_detail.html', context)
 
 

@@ -13,7 +13,7 @@
         </button>
     </a>
 
-    {% if groups %}
+    {% if discussions %}
         <table class="table">
             <thead>
             <tr>
@@ -23,16 +23,16 @@
             </tr>
             </thead>
             <tbody>
-            {% for group in groups %}
+            {% for discussion in discussions %}
                 <tr>
-                    <td><a href="/discussions/{{ group.id }}/">{{ group.name }}</a></td>
-                    <td>{{ group.time.ctime }}</td>
-                    <td>{{ group.attendees.count }}/{{ group.size }}</td>
+                    <td><a href="/discussions/{{ discussion.id }}/">{{ discussion.name }}</a></td>
+                    <td>{{ discussion.time.ctime }}</td>
+                    <td>{{ discussion.attendees.count }}/{{ discussion.size }}</td>
                 </tr>
             {% endfor %}
             </tbody>
         </table>
     {% else %}
-        <p>No groups are available.</p>
+        <p>No discussions are available.</p>
     {% endif %}
 {% endblock %}
