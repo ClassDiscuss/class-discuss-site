@@ -122,7 +122,7 @@ def login_view(request):
             if user.is_active:
                 # Redirect to a success page.
                 login(request, user)
-                return courses(request)
+                return HttpResponseRedirect('../courses')
                 # else:
                 # Return a 'disabled account' error message
                 # else:
