@@ -4,11 +4,20 @@
 
 {% block content %}
     {% if courses %}
-        <table class="table">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>Course</th>
+                <th>Instructor</th>
+                <th>Description</th>
+            </tr>
+            </thead>
             <tbody>
             {% for course in courses %}
                 <tr>
                     <td><a href="/courses/{{ course.id }}/">{{ course.name }}</a></td>
+                    <td>{{ course.instructor }}</td>
+                    <td>{{ course.description }}</td>
                 </tr>
             {% endfor %}
             </tbody>
