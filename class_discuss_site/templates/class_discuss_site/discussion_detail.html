@@ -3,10 +3,12 @@
 {% block title %}Discussion{% endblock %}
 
 {% block content %}
-    {{ discussion }}
+    <h2>
+        {{ discussion }}
+    </h2>
 
     {% if messages %}
-        <table class="table">
+        <table class="table table-striped">
             <thead>
             <tr>
                 <th>Discussion</th>
@@ -29,12 +31,12 @@
     <form class="form-signin wideInput" role="form" action="/discussions/{{ discussion.id }}/" method="post">
         {% csrf_token %}
         <! Discussion Topic>
-        <div class="input-group input-group-lg" style="padding-top: 20px;">
-            <span class="input-group-addon">Message: </span>
+        <div class="input-group">
+            <span class="input-group-addon">Chat</span>
             <input type="text" name="text" class="form-control" placeholder="Share something with the group!">
+                    <span class="input-group-btn">
+                      <button class="btn btn-default btn-success" type="submit">Send</button>
+                    </span>
         </div>
-        <!div>
-
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Send</button>
     </form>
 {% endblock %}
