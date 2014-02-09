@@ -141,6 +141,6 @@ def login_view(request):
                 # Return an 'invalid login' error message.
                 #return render(request, 'http://queenofsubtle.com/404/')
     else:
-        if request.user:
+        if request.user.is_authenticated():
             return HttpResponseRedirect('../courses')
         return render(request, 'class_discuss_site/index.html', {})
