@@ -5,42 +5,22 @@
 {% block content %}
 
     <!-- left side-->
-    <div style="width: 100%">
-        <div style="float:left; width: 45%; padding-bottom:225px">
-            <h3 align="left" style="font-size:80px"><strong class="text-info">Class</strong></h3>
-
-            <h3 align="left" style="font-size:80px"><strong class="text-info">Discuss</strong></h3>
-
-
-            <!-- right side-->
+    <div class="col-lg-6">
+        <div class="col-md-8">
+            <h3 align="left" style="font-size:80px"><strong class="text-info">Class Discuss</strong></h3>
         </div>
-        <div style="float:right; width: 30%">
-            <form class="form-signin" role="form">
+        <!-- right side-->
+        <div class="col-md-4">
+            <form class="form-signin" role="form" action="/login/" method="post">
+                {% csrf_token %}
                 <br><br>
-                <input type="email" class="form-control" placeholder="Email address" maxlengh="10" required autofocus>
+                <input type="text" name="username" class="form-control" placeholder="Username" required autofocus>
                 <br>
-                <input type="password" class="form-control" placeholder="Password" required>
+                <input type="password" name="password" class="form-control" placeholder="Password" required>
                 <br>
-
                 <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
             </form>
         </div>
+    </div>
 
-        <div class="mastfoot">
-            <p align="center" style="font-size:30px;padding-bottom:300px"> The online tool for in-person discussion.</p>
-        </div>
-
-
-        <div style="width: 100%">
-            <div style="float:left; width: 45%; padding-bottom:225px">
-                <h3 align="left" style="font-size:80px"><strong class="text-info">Class</strong></h3>
-
-                <h3 align="left" style="font-size:80px"><strong class="text-info">Discuss</strong></h3>
-                <!-- right side-->
-                <p align="center" style="font-size:30px;">The online tool for in-person discussion.</p>
-
-            </div>
-
-
-        </div>
 {% endblock %}

@@ -11,44 +11,42 @@
 
     <title>{% block title %}Class Discuss{% endblock %}</title>
 
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css">
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap-theme.min.css">
     <link rel="stylesheet" href="{% static "class_discuss_site/css/theme.css" %}">
 </head>
 
 <body>
 
-<div class="site-wrapper">
-    <div class="site-wrapper-inner">
-        <div class="cover-container">
-
-            <div class="masthead clearfix">
-                <div class="inner">
-                    <h3 class="masthead-brand">ClassDiscuss</h3>
-                    <ul class="nav masthead-nav">
-                        <li><a href="/courses">Courses</a></li>
-                        <li><a href="/discussions">My Discussions</a></li>
-                        <li><a href="#">About</a></li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="inner cover" id="content">
-                {% block content %}{% endblock %}
-            </div>
-
-            <div class="mastfoot">
-                <div class="inner">
-                    <p>ClassDiscuss - 2014</p>
-                </div>
-            </div>
-
-        </div>
+<div class="navbar navbar-default">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse"
+                data-target=".navbar-responsive-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="/">Class Discuss</a>
+    </div>
+    <div class="navbar-collapse collapse navbar-responsive-collapse">
+        <ul class="nav navbar-nav">
+            <li><a href="/courses">Courses</a></li>
+            <li><a href="/discussions">My Discussions</a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+            <li><a href="/logout">Logout</a></li>
+        </ul>
     </div>
 </div>
+
+<div class="container">
+    {% block content %}{% endblock %}
+</div>
+
+<footer>
+</footer>
 
 <!-- Placed at the end of the document so the pages load faster -->
 <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
 <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
 </body>
+
 </html>
