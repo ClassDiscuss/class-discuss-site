@@ -5,7 +5,7 @@
 {% block content %}
 
     <a href="/discussions/create">
-        <button type="button" class="btn btn-primary btn-lg btn-block">Create New Discussion
+        <button type="button" class="btn btn-primary btn-info btn-block">Create New Discussion
         </button>
     </a>
 
@@ -24,7 +24,7 @@
                 <tr>
                     <td><a href="/courses/{{ discussion.course.id }}/">{{ discussion.course.name }}</a></td>
                     <td><a href="/discussions/{{ discussion.id }}/">{{ discussion.name }}</a></td>
-                    <td>{{ discussion.datetime.ctime }}</td>
+                    <td>{{ discussion.datetime }}</td>
                     <td>{{ discussion.members.count }}/{{ discussion.size }}</td>
                 </tr>
             {% endfor %}
