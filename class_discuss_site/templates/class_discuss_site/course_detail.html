@@ -26,8 +26,8 @@
             {% for discussion in discussions %}
                 <tr>
                     <td><a href="/discussions/{{ discussion.id }}/">{{ discussion.name }}</a></td>
-                    <td>{{ discussion.time.ctime }}</td>
-                    <td>{{ discussion.attendees.count }}/{{ discussion.size }}</td>
+                    <td>{{ discussion.datetime.ctime }}</td>
+                    <td>{{ discussion.members.count }}/{{ discussion.size }}</td>
                 </tr>
             {% endfor %}
             </tbody>
