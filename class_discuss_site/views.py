@@ -1,4 +1,5 @@
 from datetime import datetime
+from django.http import HttpResponseRedirect
 
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.decorators import login_required
@@ -56,17 +57,19 @@ def discussion_create(request):
     Page to create a discussion.
     """
     if request.method == "POST":
-        course_name = request.POST['course_name']
+        # todo use from form
+        # course_name = request.POST['course_name']
+        # course = Course.objects.all().filter(name=course_name)
+        course = get_object_or_404(Course, pk=1)
         name = request.POST['name']
         size = request.POST['size']
         organizer = request.user
         # TODO respect user selected time
         event_datetime = datetime.now()
-        course = Course.objects.all().filter(name=course_name)
         # no information for location or attendees yet
-        discussion = Discussion(course=course, organizer=organizer, name=name, size=size, time=event_datetime)
+        discussion = Discussion(course=course, organizer=organizer, name=name, size=size, datetime=event_datetime)
         discussion.save()
-        return discussion_detail(request, discussion.id)
+        return HttpResponseRedirect(discussion.id)
     else:  # Get page here
         return render(request, 'class_discuss_site/discussions_create.html', {})
 
