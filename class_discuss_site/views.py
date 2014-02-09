@@ -42,7 +42,7 @@ def discussion_detail(request, discussion_id):
         sender = request.user
         text = request.POST['text']
         discussion = get_object_or_404(Discussion, pk=discussion_id)
-        message = ForumMessage(text=text, sender=sender, group=discussion)  # time inserted automatically
+        message = ForumMessage(text=text, sender=sender, discussion=discussion)  # time inserted automatically
         message.save()
 
     discussion = get_object_or_404(Discussion, pk=discussion_id)

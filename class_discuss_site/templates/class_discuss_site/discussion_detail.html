@@ -17,7 +17,7 @@
                 <tr>
                     <td>{{ message.timestamp }}</td>
                     <td>{{ message.sender }}</td>
-                    <td>{{ message.message }}</td>
+                    <td>{{ message.text }}</td>
                 </tr>
             {% endfor %}
             </tbody>
@@ -26,12 +26,12 @@
         <p>No messages are available.</p>
     {% endif %}
 
-    <form class="form-signin wideInput" role="form" action="/discussions/{{ discussion.id }}" method="post">
+    <form class="form-signin wideInput" role="form" action="/discussions/{{ discussion.id }}/" method="post">
         {% csrf_token %}
         <! Discussion Topic>
         <div class="input-group input-group-lg" style="padding-top: 20px;">
             <span class="input-group-addon">Message: </span>
-            <input type="text" name="message" class="form-control" placeholder="Share something with the group!">
+            <input type="text" name="text" class="form-control" placeholder="Share something with the group!">
         </div>
         <!div>
 
