@@ -55,6 +55,7 @@ def discussion_detail(request, discussion_id):
     context = {'discussion': discussion, 'messages': messages}
     return render(request, 'class_discuss_site/discussion_detail.html', context)
 
+
 @login_required
 def discussion_detail_logout(request, discussion_id):
     """
@@ -65,16 +66,14 @@ def discussion_detail_logout(request, discussion_id):
     discussion.save()
     return HttpResponseRedirect('../../../discussions')
 
+
 @login_required
 def discussion_create(request):
     """
     Page to create a discussion.
     """
     if request.method == "POST":
-        # todo use from form
-        # course_name = request.POST['course_name']
-        # course = Course.objects.all().filter(name=course_name)
-        course = get_object_or_404(Course, pk=1)
+        course = get_object_or_404(Course, name=request.POST['course_name'])
         name = request.POST['name']
         size = request.POST['size']
         organizer = request.user
