@@ -8,7 +8,7 @@ from models import Group, User, Course, ForumMessage
 
 # Create your views here.
 @login_required
-def groups(request):
+def groups_view(request):
     user = request.user
     all_groups = Group.objects.all()
 
