@@ -20,7 +20,11 @@
             <! Total Participants>
             <div class="input-group input-group-lg" style="padding-top: 20px;">
                 <span class="input-group-addon">Total Participants: </span>
-                <input type="number" name="size" class="form-control" maxlength=1 value=2>
+                <input type="number" step=1 name="size" class="form-control" maxlength=1 min=2 max=6
+                       placeholder="2 - 6">
+                <!--<input type="text" name="size" class="form-control"  maxlength=1 value=1><!placeholder="Maximum
+                participants in
+                the group">-->
             </div>
 
             <! Date>
@@ -35,6 +39,8 @@
                 <input type="text" name="time" class="form-control" placeholder="HH:MM">
             </div>
         </div>
+
+        <br>
 
         <button class="btn btn-lg btn-primary btn-block" type="submit">Create!</button>
 
