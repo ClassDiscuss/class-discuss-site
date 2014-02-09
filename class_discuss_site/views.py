@@ -29,3 +29,7 @@ def courses(request):
 def course_detail(request, course_id):
     course = get_object_or_404(Course, pk=course_id)
     return render(request, 'class_discuss_site/course.html', {'course': course})
+
+def login(request):
+    context = {}
+    return render(request, 'class_discuss_site/login.html', context)
