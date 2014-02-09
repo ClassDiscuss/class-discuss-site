@@ -55,6 +55,15 @@ def discussion_detail(request, discussion_id):
     context = {'discussion': discussion, 'messages': messages}
     return render(request, 'class_discuss_site/discussion_detail.html', context)
 
+@login_required
+def discussion_detail_logout(request, discussion_id):
+    """
+    Let the user leave from the given discussion.
+    """
+    discussion = get_object_or_404(Discussion, pk=discussion_id)
+    discussion.members.remove(request.user)
+    discussion.save()
+    return HttpResponseRedirect('../../../discussions')
 
 @login_required
 def discussion_create(request):
