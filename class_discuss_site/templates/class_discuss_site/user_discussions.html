@@ -4,12 +4,12 @@
 
 {% block content %}
 
-    <a href="/courses/create">
+    <a href="/discussions/create">
         <button type="button" class="btn btn-primary btn-lg btn-block">Create New Discussion
         </button>
     </a>
 
-    {% if groups %}
+    {% if discussions %}
         <table class="table">
             <thead>
             <tr>
@@ -20,17 +20,17 @@
             </tr>
             </thead>
             <tbody>
-            {% for group in groups %}
+            {% for discussion in discussions %}
                 <tr>
-                    <td><a href="/courses/{{ group.course.id }}/">{{ group.course.name }}</a></td>
-                    <td><a href="/groups/{{ group.id }}/">{{ group.name }}</a></td>
-                    <td>{{ group.time.ctime }}</td>
-                    <td>{{ group.attendees.count }}/{{ group.size }}</td>
+                    <td><a href="/courses/{{ discussion.course.id }}/">{{ discussion.course.name }}</a></td>
+                    <td><a href="/discussions/{{ discussion.id }}/">{{ discussion.name }}</a></td>
+                    <td>{{ discussion.datetime.ctime }}</td>
+                    <td>{{ discussion.members.count }}/{{ discussion.size }}</td>
                 </tr>
             {% endfor %}
             </tbody>
         </table>
     {% else %}
-        <p>No groups are available.</p>
+        <p>No discussion are available.</p>
     {% endif %}
 {% endblock %}
