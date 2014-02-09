@@ -4,11 +4,26 @@
 
 {% block content %}
     {% if groups %}
-        <ul>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Discussion</th>
+                    <th>Time</th>
+                    <th>Location</th>
+                    <th>Attendance</th>
+                </tr>
+            </thead>
+            <tbody>
             {% for group in groups %}
-                <li><a href="/groups/{{ group.id }}/">{{ group.name }}</a></li>
+                <tr>
+                    <td><a href="/groups/{{ group.id }}/">{{ group.name }}</a></td>
+                    <td>{{ group.time.ctime }}</td>
+                    <td>{{ group.location }}</td>
+                    <td>{{ group.attendees.count }}/{{ group.size }}</td>
+                </tr>
             {% endfor %}
-        </ul>
+            </tbody>
+        </table>
     {% else %}
         <p>No groups are available.</p>
     {% endif %}

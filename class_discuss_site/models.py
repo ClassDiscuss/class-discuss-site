@@ -15,7 +15,8 @@ class Group(models.Model):
     location = models.CharField(max_length=50)
     organizer = models.ForeignKey(User, related_name='organizer+')
     attendees = models.ManyToManyField(User, related_name='attendees+')
-    time = models.DateField()
+    time = models.DateTimeField()
     course = models.ForeignKey(Course, related_name='course+')
+    size = models.IntegerField()
     def __unicode__(self):
         return self.name
