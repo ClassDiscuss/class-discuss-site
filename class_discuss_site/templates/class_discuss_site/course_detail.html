@@ -4,18 +4,17 @@
 
 {% block content %}
 
-    {{ course.description }}
+    <div class="row">
+        <div class="col-md-8">Description: {{ course.description }}</div>
+    </div>
+    <div class="row">
+        <div class="col-md-8">Instructor: {{ course.instructor }}</div>
+    </div>
 
-    {{ course.instructor }}
-
-
-    <a href="/discussions/create">
-        <button type="button" class="btn btn-primary btn-info btn-block">Create New Discussion
-        </button>
-    </a>
+    <br>
 
     {% if discussions %}
-        <table class="table">
+        <table class="table table-striped">
             <thead>
             <tr>
                 <th>Discussion</th>
@@ -26,9 +25,21 @@
             <tbody>
             {% for discussion in discussions %}
                 <tr>
-                    <td><a href="/discussions/{{ discussion.id }}/">{{ discussion.name }}</a></td>
-                    <td>{{ discussion.datetime.ctime }}</td>
-                    <td>{{ discussion.members.count }}/{{ discussion.size }}</td>
+                    <td>{{ discussion.name }}</td>
+                    <td>{{ discussion.datetime }}</td>
+                    {% if discussion.members.count < discussion.size %}
+                        <td>
+                            <a href="/discussions/{{ discussion.id }}/">
+                                <button type="button"
+                                        class="btn btn-success btn-sm">{{ discussion.members.count }}/{{ discussion.size }}</button>
+                            </a>
+                        </td>
+                    {% else %}
+                        <td>
+                            <button type="button"
+                                    class="btn btn-danger btn-sm disabled">{{ discussion.members.count }}/{{ discussion.size }}</button>
+                        </td>
+                    {% endif %}
                 </tr>
             {% endfor %}
             </tbody>
@@ -36,4 +47,10 @@
     {% else %}
         <p>No discussions are available.</p>
     {% endif %}
+
+    <br>
+    <a href="/discussions/create">
+        <button type="button" class="btn btn-primary btn-info btn-block">Create New Discussion
+        </button>
+    </a>
 {% endblock %}

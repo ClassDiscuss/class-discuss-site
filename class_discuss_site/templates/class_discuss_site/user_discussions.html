@@ -4,13 +4,8 @@
 
 {% block content %}
 
-    <a href="/discussions/create">
-        <button type="button" class="btn btn-primary btn-info btn-block">Create New Discussion
-        </button>
-    </a>
-
     {% if discussions %}
-        <table class="table">
+        <table class="table table-striped">
             <thead>
             <tr>
                 <th>Course</th>
@@ -33,4 +28,9 @@
     {% else %}
         <p>No discussion are available.</p>
     {% endif %}
+
+    <a href="/discussions/create">
+        <button type="button" class="btn btn-primary btn-info btn-block">Create New Discussion
+        </button>
+    </a>
 {% endblock %}

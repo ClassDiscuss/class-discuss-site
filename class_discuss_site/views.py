@@ -47,6 +47,10 @@ def discussion_detail(request, discussion_id):
         message.save()
 
     discussion = get_object_or_404(Discussion, pk=discussion_id)
+
+    if request.user.id not in discussion.members.all() and request.user.id != discussion.organizer.id:
+        discussion.members.add(request.user)
+
     messages = ForumMessage.objects.all().filter(discussion_id=discussion_id)
     context = {'discussion': discussion, 'messages': messages}
     return render(request, 'class_discuss_site/discussion_detail.html', context)
