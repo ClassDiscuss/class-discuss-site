@@ -4,11 +4,15 @@
 
 {% block content %}
     {% if courses %}
-        <ul>
+        <table class="table">
+            <tbody>
             {% for course in courses %}
-                <li><a href="/courses/{{ course.id }}/">{{ course.name }}</a></li>
+                <tr>
+                    <td><a href="/courses/{{ course.id }}/">{{ course.name }}</a></td>
+                </tr>
             {% endfor %}
-        </ul>
+            </tbody>
+        </table>
     {% else %}
         <p>No courses are available.</p>
     {% endif %}
