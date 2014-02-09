@@ -3,5 +3,32 @@
 {% block title %}Course{% endblock %}
 
 {% block content %}
-    {{ course }}
+
+    {{ course.description }}
+    {{ course.instructor }}
+
+    {% if groups %}
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Discussion</th>
+                <th>Time</th>
+                <th>Location</th>
+                <th>Attendance</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for group in groups %}
+                <tr>
+                    <td><a href="/groups/{{ group.id }}/">{{ group.name }}</a></td>
+                    <td>{{ group.time.ctime }}</td>
+                    <td>{{ group.location }}</td>
+                    <td>{{ group.attendees.count }}/{{ group.size }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No groups are available.</p>
+    {% endif %}
 {% endblock %}

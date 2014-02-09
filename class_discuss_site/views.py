@@ -1,15 +1,24 @@
 from django.shortcuts import render, get_object_or_404
-
 from django.contrib.auth.decorators import login_required
-
 from django.contrib.auth import authenticate, login
 
 from models import Group, User, Course
 
+
+
 # Create your views here.
 @login_required
 def groups(request):
-    groups = Group.objects.all()
+    user = request.user
+    all_groups = Group.objects.all()
+
+    # Todo filter in the query
+    groups = list()
+    for group in all_groups:
+        for attendee in group.attendees.all():
+            if user.id == attendee.id:
+                groups.append(group)
+
     context = {'groups': groups}
     return render(request, 'class_discuss_site/groups.html', context)
 
@@ -43,7 +52,9 @@ def courses(request):
 @login_required
 def course_detail(request, course_id):
     course = get_object_or_404(Course, pk=course_id)
-    return render(request, 'class_discuss_site/course.html', {'course': course})
+    groups = Group.objects.all().filter(course=course_id)
+    context = {'course': course, 'groups': groups}
+    return render(request, 'class_discuss_site/course.html', context)
 
 
 def login_request(request):
@@ -60,8 +71,8 @@ def authenticate_request(request):
             login(request, user)
             # Redirect to a success page.
             return courses(request)
-        # else:
+            # else:
             # Return a 'disabled account' error message
-    # else:
-        # Return an 'invalid login' error message.
+            # else:
+            # Return an 'invalid login' error message.
     return render(request, 'http://queenofsubtle.com/404/')
