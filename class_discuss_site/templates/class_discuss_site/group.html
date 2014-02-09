@@ -4,4 +4,37 @@
 
 {% block content %}
     {{ group }}
+
+    {% if messages %}
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Discussion</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for message in messages %}
+                <tr>
+                    <td>{{ message.timestamp }}</td>
+                    <td>{{ message.sender }}</td>
+                    <td>{{ message.message }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No messages are available.</p>
+    {% endif %}
+
+    <form class="form-signin wideInput" role="form" action="/groups/{{ group.id }}/insert" method="post">
+        {% csrf_token %}
+        <! Discussion Topic>
+        <div class="input-group input-group-lg" style="padding-top: 20px;">
+            <span class="input-group-addon">Message: </span>
+            <input type="text" name="message" class="form-control" placeholder="Share something with the group!">
+        </div>
+        <!div>
+
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Send</button>
+    </form>
 {% endblock %}

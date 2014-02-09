@@ -4,7 +4,7 @@ from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login
 
-from models import Group, User, Course
+from models import Group, User, Course, ForumMessage
 
 # Create your views here.
 @login_required
@@ -29,6 +29,18 @@ def groups(request):
 @login_required
 def group_detail(request, group_id):
     group = get_object_or_404(Group, pk=group_id)
+    messages = ForumMessage.objects.all().filter(group_id=group.id)
+    context = {'group': group, 'messages': messages}
+    return render(request, 'class_discuss_site/group.html', context)
+
+
+@login_required
+def group_post_message(request, group_id):
+    sender = request.user
+    message = request.POST['message']
+    group = get_object_or_404(Group, pk=group_id)
+    post = ForumMessage(message=message, sender=sender, group=group)  # time inserted automatically
+    post.save()
     return render(request, 'class_discuss_site/group.html', {'group': group})
 
 
