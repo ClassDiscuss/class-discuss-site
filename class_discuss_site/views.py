@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 
 from models import Group, User, Course
-
+from django.contrib.auth import authenticate, login
 
 # Create your views here.
 def groups(request):
@@ -37,6 +37,21 @@ def course_detail(request, course_id):
     return render(request, 'class_discuss_site/course.html', {'course': course})
 
 
-def login(request):
+def login_request(request):
     context = {}
     return render(request, 'class_discuss_site/login.html', context)
+
+def authenticate_request(request):
+    username = request.POST['username']
+    password = request.POST['password']
+    user = authenticate(username=username, password=password)
+    if user is not None:
+        if user.is_active:
+            login(request, user)
+            # Redirect to a success page.
+
+        # else:
+            # Return a 'disabled account' error message
+    # else:
+        # Return an 'invalid login' error message.
+    return courses(request)
