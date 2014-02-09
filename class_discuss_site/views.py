@@ -1,11 +1,12 @@
 from datetime import datetime
-from django.http import HttpResponseRedirect
 
+from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login
 
 from models import Discussion, User, Course, ForumMessage
+
 
 # Create your views here.
 @login_required
@@ -109,11 +110,13 @@ def course_detail(request, course_id):
     context = {'course': course, 'discussions': discussions}
     return render(request, 'class_discuss_site/course_detail.html', context)
 
+
 def index_view(request):
     """
     Displays the index page (or homepage)
     """
     return login_view(request)
+
 
 def login_view(request):
     """
@@ -134,4 +137,6 @@ def login_view(request):
                 # Return an 'invalid login' error message.
                 #return render(request, 'http://queenofsubtle.com/404/')
     else:
+        if request.user:
+            return HttpResponseRedirect('../courses')
         return render(request, 'class_discuss_site/index.html', {})
