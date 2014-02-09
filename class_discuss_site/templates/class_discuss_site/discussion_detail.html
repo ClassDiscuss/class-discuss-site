@@ -7,6 +7,20 @@
         {{ discussion }}
     </h2>
 
+    {% if discussion.organizer.id == user.id %}
+        <td>
+            <button type="button"
+                    class="btn btn-danger btn-sm disabled">{{ discussion.members.count }}/{{ discussion.size }}</button>
+        </td>
+    {% else %}
+        <td>
+            <a href="/discussions/{{ discussion.id }}/">
+                <button type="button"
+                        class="btn btn-danger btn-sm">{{ discussion.members.count }}/{{ discussion.size }}</button>
+            </a>
+        </td>
+    {% endif %}
+
     {% if messages %}
         <table class="table table-striped">
             <thead>
