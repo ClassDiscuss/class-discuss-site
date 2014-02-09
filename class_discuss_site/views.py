@@ -131,7 +131,7 @@ def login_view(request):
         password = request.POST['password']
         user = authenticate(username=username, password=password)
         if user is not None:
-            if user.is_active():
+            if user.is_active:
                 # Redirect to a success page.
                 login(request, user)
                 return HttpResponseRedirect('../courses')
