@@ -3,7 +3,7 @@ from datetime import datetime
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 
 from models import Discussion, User, Course, ForumMessage
 
@@ -131,7 +131,7 @@ def login_view(request):
         password = request.POST['password']
         user = authenticate(username=username, password=password)
         if user is not None:
-            if user.is_authenticated():
+            if user.is_active():
                 # Redirect to a success page.
                 login(request, user)
                 return HttpResponseRedirect('../courses')
@@ -144,3 +144,11 @@ def login_view(request):
         if request.user.is_authenticated():
             return HttpResponseRedirect('../courses')
         return render(request, 'class_discuss_site/index.html', {})
+
+
+def logout_view(request):
+    """
+    Logout the user!
+    """
+    logout(request)
+    return HttpResponseRedirect('../')
