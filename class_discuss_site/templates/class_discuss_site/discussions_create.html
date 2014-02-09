@@ -3,7 +3,7 @@
 {% block title %}Course{% endblock %}
 
 {% block content %}
-    <form class="form-signin wideInput" role="form" action="/courses/insert" method="post">
+    <form class="form-signin wideInput" role="form" action="/discussions/create" method="post">
         {% csrf_token %}
         <! Discussion Topic>
         <div class="input-group input-group-lg" style="padding-top: 20px;">

@@ -3,7 +3,7 @@
 {% block title %}Login{% endblock %}
 
 {% block content %}
-    <form class="form-signin" role="form" action="/login/authenticate/" method="post">
+    <form class="form-signin" role="form" action="/login/" method="post">
         {% csrf_token %}
         <h2 class="form-signin-heading">Please sign in</h2>
         <input type="text" name="username" class="form-control" placeholder="Username" required autofocus>

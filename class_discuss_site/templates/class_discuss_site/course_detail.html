@@ -5,9 +5,10 @@
 {% block content %}
 
     {{ course.description }}
+
     {{ course.instructor }}
 
-    <a href="/courses/create">
+    <a href="/discussions/create">
         <button type="button" class="btn btn-primary btn-lg btn-block">Create New Discussion
         </button>
     </a>
@@ -24,7 +25,7 @@
             <tbody>
             {% for group in groups %}
                 <tr>
-                    <td><a href="/groups/{{ group.id }}/">{{ group.name }}</a></td>
+                    <td><a href="/discussions/{{ group.id }}/">{{ group.name }}</a></td>
                     <td>{{ group.time.ctime }}</td>
                     <td>{{ group.attendees.count }}/{{ group.size }}</td>
                 </tr>

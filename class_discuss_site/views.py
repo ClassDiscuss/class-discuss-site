@@ -4,114 +4,126 @@ from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login
 
-from models import Group, User, Course, ForumMessage
+from models import Discussion, User, Course, ForumMessage
 
 # Create your views here.
 @login_required
-def groups_view(request):
+def user_discussions(request):
+    """
+    Displays all discussions for the given user.
+    The user must be an organizer or attendee of this discussion.
+    """
     user = request.user
-    all_groups = Group.objects.all()
+    unfiltered_discussions = Discussion.objects.all()
 
     # Todo filter in the query
-    groups = list()
-    for group in all_groups:
-        if group.organizer.id == user.id:
-            groups.append(group)
+    discussions = list()
+    for discussion in unfiltered_discussions:
+        if discussion.organizer.id == user.id:
+            discussions.append(discussion)
         else:
-            for attendee in group.attendees.all():
+            for attendee in discussion.members.all():
                 if user.id == attendee.id:
-                    groups.append(group)
+                    discussions.append(discussion)
 
-    context = {'groups': groups}
-    return render(request, 'class_discuss_site/groups.html', context)
-
-
-@login_required
-def group_detail(request, group_id):
-    group = get_object_or_404(Group, pk=group_id)
-    messages = ForumMessage.objects.all().filter(group_id=group.id)
-    context = {'group': group, 'messages': messages}
-    return render(request, 'class_discuss_site/group.html', context)
+    context = {'discussions': discussions}
+    return render(request, 'class_discuss_site/user_discussions.html', context)
 
 
 @login_required
-def group_post_message(request, group_id):
-    sender = request.user
-    message = request.POST['message']
-    group = get_object_or_404(Group, pk=group_id)
-    post = ForumMessage(message=message, sender=sender, group=group)  # time inserted automatically
-    post.save()
-    return group_detail(request, group_id)
+def discussion_detail(request, discussion_id):
+    """
+    Display a single discussion in detail.
+    This includes the messages for it as well.
+    If the request is post, insert a message into the discussion as well.
+    """
+    if request.method == 'POST':
+        sender = request.user
+        text = request.POST['text']
+        discussion = get_object_or_404(Discussion, pk=discussion_id)
+        message = ForumMessage(text=text, sender=sender, group=discussion)  # time inserted automatically
+        message.save()
+
+    discussion = get_object_or_404(Discussion, pk=discussion_id)
+    messages = ForumMessage.objects.all().filter(discussion_id=discussion_id)
+    context = {'discussion': discussion, 'messages': messages}
+    return render(request, 'class_discuss_site/discussion_detail.html', context)
 
 
 @login_required
-def users(request):
-    users = User.objects.all()
-    context = {'users': users}
-    return render(request, 'class_discuss_site/users.html', context)
+def discussion_create(request):
+    """
+    Page to create a discussion.
+    """
+    if request.method == "POST":
+        course_name = request.POST['course_name']
+        name = request.POST['name']
+        size = request.POST['size']
+        organizer = request.user
+        # TODO respect user selected time
+        event_datetime = datetime.now()
+        course = Course.objects.all().filter(name=course_name)
+        # no information for location or attendees yet
+        discussion = Discussion(course=course, organizer=organizer, name=name, size=size, time=event_datetime)
+        discussion.save()
+        return discussion_detail(request, discussion.id)
+    else:  # Get page here
+        return render(request, 'class_discuss_site/discussions_create.html', {})
 
 
 @login_required
 def user_detail(request, username):
+    """
+    Display a user's profile in detail.
+    This is restricted to only the user's own profile, accessing another user's profile
+    will give an unauthorized exception.
+    """
     user = get_object_or_404(User, username=username)
-    return render(request, 'class_discuss_site/user.html', {'user': user})
+    if request.user.id == user.id:
+        return render(request, 'class_discuss_site/user_detail.html', {'user': user})
+        # todo
+        # else:
+        #   Unauthorized!
 
 
 @login_required
 def courses(request):
+    """
+    Show all courses in our database.
+    """
     courses = Course.objects.all()
     context = {'courses': courses}
     return render(request, 'class_discuss_site/courses.html', context)
 
 
 @login_required
-def course_create_page(request):
-    return render(request, 'class_discuss_site/course_create.html', {})
-
-
-@login_required
-def course_insert(request):
-    name = request.POST['name']
-    size = request.POST['size']
-    # TODO respect user selected time
-    date = request.POST['date']
-    time = request.POST['time']
-    organizer = request.user
-    event_datetime = datetime.now()
-
-    # skip location, attendees
-    # TODO get course name too!
-    course = Course.objects.get(pk=1)
-    group = Group(name=name, size=size, organizer=organizer, time=event_datetime, course=course)
-    group.save()
-
-    return group_detail(request, group.id)
-
-
-@login_required
 def course_detail(request, course_id):
+    """
+    Show a detailed page for a course.
+    """
     course = get_object_or_404(Course, pk=course_id)
-    groups = Group.objects.all().filter(course=course_id)
+    groups = Discussion.objects.all().filter(course=course_id)
     context = {'course': course, 'groups': groups}
-    return render(request, 'class_discuss_site/course.html', context)
+    return render(request, 'class_discuss_site/course_detail.html', context)
 
 
-def login_request(request):
-    context = {}
-    return render(request, 'class_discuss_site/login.html', context)
-
-
-def authenticate_request(request):
-    username = request.POST['username']
-    password = request.POST['password']
-    user = authenticate(username=username, password=password)
-    if user is not None:
-        if user.is_active:
-            login(request, user)
-            # Redirect to a success page.
-            return courses(request)
-            # else:
-            # Return a 'disabled account' error message
-            # else:
-            # Return an 'invalid login' error message.
-    return render(request, 'http://queenofsubtle.com/404/')
+def login_view(request):
+    """
+    Show a login page for a user, or login if this is a post request.
+    """
+    if request.method == "POST":
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(username=username, password=password)
+        if user is not None:
+            if user.is_active:
+                # Redirect to a success page.
+                login(request, user)
+                return courses(request)
+                # else:
+                # Return a 'disabled account' error message
+                # else:
+                # Return an 'invalid login' error message.
+                #return render(request, 'http://queenofsubtle.com/404/')
+    else:
+        return render(request, 'class_discuss_site/login.html', {})
