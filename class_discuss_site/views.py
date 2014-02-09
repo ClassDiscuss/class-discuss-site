@@ -109,6 +109,11 @@ def course_detail(request, course_id):
     context = {'course': course, 'discussions': discussions}
     return render(request, 'class_discuss_site/course_detail.html', context)
 
+def index_view(request):
+    """
+    Displays the index page (or homepage)
+    """
+    return login_view(request)
 
 def login_view(request):
     """
@@ -129,4 +134,4 @@ def login_view(request):
                 # Return an 'invalid login' error message.
                 #return render(request, 'http://queenofsubtle.com/404/')
     else:
-        return render(request, 'class_discuss_site/login.html', {})
+        return render(request, 'class_discuss_site/index.html', {})

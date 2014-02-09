@@ -10,4 +10,5 @@ urlpatterns = patterns('',
     url(r'^courses/', include('class_discuss_site.course_urls')),
     url(r'^login/', include('class_discuss_site.login_urls')),
     url(r'^admin/', include(admin.site.urls)),
+    url(r'^$', include('class_discuss_site.index_url')),
 )
